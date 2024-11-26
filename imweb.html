@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image Slider</title>
+  <style>
+    .slider-container {
+      width: 100%;
+      max-width: 800px;
+      overflow: hidden;
+      margin: 0 auto;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    #slider {
+      display: flex;
+      transition: transform 0.3s ease-in-out;
+      cursor: grab;
+    }
+    .slider-item {
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+    .slider-item img {
+      width: 100%;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="slider-container">
+    <div id="slider">
+      <div class="slider-item"><img src="https://cdn.imweb.me/thumbnail/20161013/57ff2b64b8fc5.jpg" alt="Image 1"></div>
+      <div class="slider-item"><img src="https://cdn.imweb.me/thumbnail/20161013/57ff2b6c41985.jpg" alt="Image 2"></div>
+      <div class="slider-item"><img src="https://cdn.imweb.me/thumbnail/20161013/57ff2b6c7eff0.jpg" alt="Image 3"></div>
+    </div>
+  </div>
+  <script>
+    const slider = document.getElementById('slider');
+    let isDown = false, startX, scrollLeft;
+
+    slider.addEventListener('mousedown', (e) => {
+      isDown = true;
+      slider.style.cursor = 'grabbing';
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+    });
+
+    slider.addEventListener('mouseleave', () => {
+      isDown = false;
+      slider.style.cursor = 'grab';
+    });
+
+    slider.addEventListener('mouseup', () => {
+      isDown = false;
+      slider.style.cursor = 'grab';
+    });
+
+    slider.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = (x - startX) * 2; // Scroll speed
+      slider.scrollLeft = scrollLeft - walk;
+    });
+  </script>
+</body>
+</html>
